@@ -1,0 +1,99 @@
+/* MyAuris brand tokens — extracted from https://myauris.vn/ on 2026-08-18.
+ * Source of truth: the live site's compiled CSS. See ../BRAND.md for provenance
+ * and WCAG notes. Import once at the app root, then reference the vars only —
+ * do not paste raw hex into components.
+ */
+
+:root {
+  /* ---- Core palette: plum → violet ------------------------------------- */
+  --ma-plum-900:    #26143b;  /* nav dropdown bg, darkest surface           */
+  --ma-plum-800:    #29133d;
+  --ma-plum-700:    #412f61;
+  --ma-violet-600:  #403060;  /* all h1–h6 on the site                      */
+  --ma-violet-500:  #7468a9;  /* menu overlay, top-bar icon colour          */
+  --ma-violet-400:  #8e84cd;  /* hover accent, tag/chip fill                */
+  --ma-violet-300:  #9084d0;  /* the violet inside the logo mark            */
+  --ma-violet-200:  #867bc2;
+  --ma-violet-50:   #f8f7ff;  /* tinted section background                  */
+  --ma-violet-a13:  rgb(142 132 204 / 13%); /* dropdown hover wash          */
+
+  /* ---- Accent: magenta (primary CTA / active state) --------------------- */
+  --ma-magenta-600: #db007f;
+  --ma-magenta-500: #e5007f;  /* nav hover, button hover, current item      */
+  --ma-magenta-400: #e332ad;
+  --ma-magenta-300: #e3328f;
+  --ma-pink-300:    #e55088;
+
+  /* ---- Secondary purples (newer 2024/25 pages) -------------------------- */
+  --ma-purple-700:  #681671;
+  --ma-purple-600:  #682f90;
+  --ma-purple-500:  #822a85;
+  --ma-purple-400:  #8b2a8d;
+  --ma-indigo-500:  #7b56eb;
+
+  /* ---- Neutrals --------------------------------------------------------- */
+  --ma-ink:         #212121;  /* body text                                  */
+  --ma-ink-muted:   #333333;  /* nav links, secondary text                  */
+  --ma-surface:     #ffffff;
+  --ma-surface-alt: #f7f7f7;
+  --ma-surface-bar: #f1f1f1;  /* header-bottom strip                        */
+  --ma-border:      #eaeaea;
+
+  /* ---- Semantic aliases — prefer these in components -------------------- */
+  --ma-color-heading:      var(--ma-violet-600);
+  --ma-color-text:         var(--ma-ink);
+  --ma-color-text-muted:   var(--ma-ink-muted);
+  --ma-color-primary:      var(--ma-magenta-500);
+  --ma-color-primary-fg:   #ffffff;
+  --ma-color-secondary:    var(--ma-violet-500);
+  --ma-color-secondary-fg: #ffffff;
+  --ma-color-link:         var(--ma-violet-600);
+  --ma-color-link-hover:   var(--ma-magenta-500);
+  --ma-color-focus:        var(--ma-violet-400);
+  --ma-color-bg:           var(--ma-surface);
+  --ma-color-bg-tint:      var(--ma-violet-50);
+  --ma-color-bg-dark:      var(--ma-plum-900);
+  --ma-color-border:       var(--ma-border);
+
+  /* ---- Gradients (site uses 45deg consistently) ------------------------- */
+  --ma-gradient-heading: linear-gradient(45deg, #26143b, #403060 90%);
+  --ma-gradient-brand:   linear-gradient(45deg, #682f90, #e332ad 90%);
+  --ma-gradient-accent:  linear-gradient(45deg, #e5007f, #7b56eb);
+
+  /* ---- Type ------------------------------------------------------------- */
+  --ma-font-heading: "Montserrat", system-ui, sans-serif; /* h1–h6, nav, buttons */
+  --ma-font-body:    "Mulish", system-ui, sans-serif;     /* body copy           */
+  --ma-font-script:  "Dancing Script", cursive;           /* decorative only     */
+  --ma-weight-heading: 700;
+  --ma-weight-body:    400;
+}
+
+/* Self-hosted webfonts (OFL). Paths assume the brand/ dir is served at /brand. */
+@font-face {
+  font-family: "Montserrat"; font-style: normal; font-weight: 400; font-display: swap;
+  src: url("../brand/fonts/montserrat-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Montserrat"; font-style: normal; font-weight: 700; font-display: swap;
+  src: url("../brand/fonts/montserrat-700.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Mulish"; font-style: normal; font-weight: 400; font-display: swap;
+  src: url("../brand/fonts/mulish-400.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Mulish"; font-style: normal; font-weight: 700; font-display: swap;
+  src: url("../brand/fonts/mulish-700.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Dancing Script"; font-style: normal; font-weight: 400; font-display: swap;
+  src: url("../brand/fonts/dancing-script-400.woff2") format("woff2");
+}
+
+/* Gradient text, the way the site does it. */
+.ma-text-gradient {
+  background: var(--ma-gradient-heading);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
