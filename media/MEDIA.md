@@ -12,15 +12,23 @@ homepage HTML with a 200. `sitemap_index.xml` is the live one.
 
 ## Tiers
 
-| Tier | Assets | Size | What it is |
-|---|---:|---:|---|
-| `chrome` | 29 | 2.6 MB | On 3,000+ pages. Logo, favicons, header banner, hotline/map/clock glyphs, language flags. |
-| `marketing` | 1,048 | 825 MB | Service and category pages: clinical photography, doctor portraits, before/after galleries, 19 review videos. |
-| `editorial` | 10,379 | ~1.6 GB | Appears on exactly one blog post. The SEO long tail. |
+All three tiers have been mirrored, so the sizes below are measured, not
+estimated.
 
-**11,456 unique assets, ~2.4 GB total.** 9,873 of them appear on exactly one
-page — the brand system is really the 29 chrome assets plus a few hundred
-marketing ones; the rest is article furniture.
+| Tier | Mapped | Fetched | Size | What it is |
+|---|---:|---:|---:|---|
+| `chrome` | 29 | 29 | 2.7 MB | On 3,000+ pages. Logo, favicons, header banner, hotline/map/clock glyphs, language flags. |
+| `marketing` | 1,048 | 1,045 | 790 MB | Service and category pages: clinical photography, doctor portraits, before/after galleries, 19 review videos. |
+| `editorial` | 10,379 | 10,307 | 852 MB | Appears on exactly one blog post. The SEO long tail. |
+
+**11,456 unique assets mapped, 11,381 mirrored, 1.7 GB on disk.** 9,873 of them
+appear on exactly one page — the brand system is really the 29 chrome assets
+plus a few hundred marketing ones; the rest is article furniture.
+
+The editorial tier came in at roughly half its projected size: those files
+average ~84 KB against the marketing tier's ~150 KB, so an early extrapolation
+from the marketing mean overstated the site total as ~2.4 GB. Measured, it is
+1.7 GB.
 
 ## Video is most of the weight
 
@@ -44,14 +52,25 @@ demo box. Copy curated files into the app's static directory individually.
 
 ## Broken references found on live pages
 
-Three assets are referenced by live pages but return 404:
+**75 assets are referenced by live pages and return HTTP 404** — 3 in the
+marketing tier, 72 in editorial. Every failure in the mirror was a 404; nothing
+failed for transport reasons.
+
+Marketing tier:
 
 - `wp-content/uploads/2016/08/dummy-1.jpg`
 - `wp-content/uploads/2016/08/dummy-2.jpg`
 - `wp-content/uploads/2022/08/nieng-rang-invisalign-o-dau-tot-04-600x600-1.jpg`
 
-The first two are 2016 theme placeholders still wired into live templates. Not
-our problem to fix, but they are the kind of thing to mention once.
+The first two are 2016 theme placeholders still wired into live templates.
+
+Five of the 72 editorial failures have Vietnamese diacritics in the filename
+(e.g. `img-niềng-rang-trong-suot.jpg`). That looked like a percent-encoding bug
+in the fetcher, but both the raw and the percent-encoded URL return 404, so they
+are genuinely missing rather than mis-requested.
+
+None of this is ours to fix. It is worth mentioning to the client once — 75
+broken images is an SEO and page-quality problem they probably do not know about.
 
 ## Two favicon sets
 
