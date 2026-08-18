@@ -54,6 +54,14 @@ the single accent — that is the reading that keeps both generations coherent.
 - **Dancing Script** / *Ms Madi* / *Prata* — decorative pull-quote headings only
 - Self-hosted woff2 under `/wp-content/fonts/` (OMGF plugin), so they are already
   detached from Google Fonts. All three are OFL — safe to vendor.
+- **Only three faces/weights actually ship: Montserrat 700, Mulish 400, Dancing
+  Script 400** — each split into `latin` / `latin-ext` / `vietnamese` subsets.
+  Everything else on the site (Montserrat 400, Mulish 700) is *browser-synthesised*.
+  If the app wants real intermediate weights, pull them from Google Fonts rather
+  than faking them.
+- **The vietnamese subset is load-bearing.** Drop it and every diacritic — the
+  entire product vocabulary — silently falls back to a system face. `tokens.css`
+  declares all three subsets with their `unicode-range`; keep them together.
 
 ## Component behaviour worth copying
 
