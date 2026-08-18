@@ -1,0 +1,96 @@
+/* MyAuris → myauris-ui token remap.
+ *
+ * The app already has a token layer at src/lib/styles/tokens.css, and 55 of its
+ * 57 components consume it. So the re-theme is a REMAP of that layer, not a
+ * repaint of components. Import this after the app's tokens.css.
+ *
+ * The app ships a dark ground (--bg #282c34, --fg #9cdef2) copied from the
+ * upstream Odysseus dark theme. MyAuris is a white-ground identity. That
+ * inversion — not the hues — is the actual work: several tokens that are legible
+ * on #282c34 fail outright on white. Ratios below were measured, not estimated.
+ */
+
+:root {
+  /* ---- Surfaces: dark ground → white ground -------------------------------- */
+  --bg: #ffffff;              /* was #282c34 */
+  --panel: #f5f1fa;           /* was #111 — note it was DARKER than --bg; on
+                                 light it becomes a violet-biased tint. Used as
+                                 a background 22 times, including .sidebar. */
+  --panel-raised: #ece6f5;    /* was #1a1e29 */
+
+  /* ---- Borders: one tier was not enough ------------------------------------ */
+  --border: #e8e2f0;          /* was #355a66. Separators and dividers. */
+  --border-strong: #9d8eb6;   /* NEW. 3.01:1 on white. Any border that is the
+                                 sole boundary of a control — inputs, selects,
+                                 checkboxes — must use this, not --border.
+                                 --border is used 156 times, the most of any
+                                 token; audit which of those are controls. */
+
+  /* ---- Text ---------------------------------------------------------------- */
+  --fg: #1d1723;              /* was #9cdef2, which is 1.48:1 on white. Violet-
+                                 biased near-black rather than pure #000. 17.5:1 */
+  --fg-muted: #625a70;        /* NEW — and this is a live bug: --fg-muted is
+                                 referenced 6 times in Documents.svelte and
+                                 defined NOWHERE. Today it resolves to inherit,
+                                 which happens to look plausible on the dark
+                                 ground; on white those strings would render at
+                                 full ink strength with no visible "muted". 6.53:1 */
+  --color-muted: #625a70;     /* was #888 — 3.54:1 on white, fails AA. This token
+                                 is used 130 times, second only to --border, so
+                                 leaving it is the single largest legibility
+                                 regression available. */
+  --color-muted-alt: #7a7286;
+
+  /* ---- Accent -------------------------------------------------------------- */
+  --red: #c62828;             /* was #e06c75. Upstream made --red double as the
+                                 accent; here it goes back to being a real red. */
+  --accent: #e5007f;          /* the brand magenta, now decoupled from --red.
+                                 NOTE: AppearancePanel.svelte re-couples them at
+                                 runtime (s.setProperty('--accent', theme.red)) —
+                                 that line has to change or this is overwritten. */
+  --accent-fg: #ffffff;       /* NEW. Button.svelte hardcodes color:#17191e for
+                                 .primary — on magenta that measures 3.88:1 and
+                                 fails. White on magenta is 4.53:1. */
+  --accent-quiet: #403060;    /* headings, and the resting state of anything the
+                                 site would paint neutral-then-magenta-on-hover */
+
+  /* ---- Semantic status ----------------------------------------------------- */
+  /* Every one of these was tuned for a dark ground and fails on white:
+     #4caf50 2.78:1 · #f0ad4e 1.95:1 · #ff4444 3.41:1 · #00aaff 2.56:1 */
+  --color-error: #c62828;     /* 5.62:1 */
+  --color-error-light: #e35b5b;
+  --color-success: #2e7d32;   /* 5.13:1 */
+  --color-warning: #a35f00;   /* 5.01:1 — amber has to go this dark to clear AA
+                                 as text; keep the bright amber for icon fills */
+  --color-danger: #8f1d1d;    /* 8.89:1 */
+
+  /* --color-accent was #00aaff and --color-link-hover #66c7ff — a second, blue
+     accent system running alongside the salmon one. Collapse both into the brand
+     accent rather than carrying two unrelated hues. */
+  --color-accent: var(--accent);
+  --color-link-hover: var(--accent);
+
+  /* ---- Type ---------------------------------------------------------------- */
+  --font-family: "Mulish", system-ui, sans-serif;
+  --font-heading: "Montserrat", system-ui, sans-serif;  /* NEW — the app has no
+                                 heading/body split today; one family does both. */
+
+  /* ---- Shadows: tuned for a dark ground ------------------------------------ */
+  /* rgba(0,0,0,.4) over #282c34 reads as depth; over white it reads as dirt. */
+  --shadow-md: 0 4px 16px rgb(38 20 59 / 0.10);
+  --shadow-lg: 0 8px 32px rgb(38 20 59 / 0.14);
+
+  /* ---- Focus ring ---------------------------------------------------------- */
+  /* Unchanged in form, but note the inner layer is var(--bg): on any surface
+     that is not --bg (panels, dialogs, the sidebar) it paints a white halo.
+     Pre-existing, not caused by the re-theme, but a light ground makes it
+     visible. Fixing it properly means passing the local surface in. */
+  --focus-ring: 0 0 0 2px var(--bg), 0 0 0 4px var(--accent);
+}
+
+/* Derived tokens already use color-mix and will follow --accent automatically:
+   --select-option-active-bg: color-mix(in srgb, var(--accent) 24%, var(--panel))
+   Button .primary:hover:      color-mix(in srgb, var(--accent) 88%, white)
+   The hover mix lightens magenta toward white, which drops it below 4.5:1
+   against white text. On a light ground, hover should DARKEN:
+     color-mix(in srgb, var(--accent) 88%, black) */
